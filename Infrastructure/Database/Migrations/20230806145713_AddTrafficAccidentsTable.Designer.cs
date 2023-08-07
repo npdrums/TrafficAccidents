@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Database.Migrations
 {
     [DbContext(typeof(TrafficAccidentsDbContext))]
-    [Migration("20230806125838_AddTrafficAccidentsTable")]
+    [Migration("20230806145713_AddTrafficAccidentsTable")]
     partial class AddTrafficAccidentsTable
     {
         /// <inheritdoc />
@@ -36,7 +36,7 @@ namespace Infrastructure.Database.Migrations
 
                     b.Property<Point>("AccidentLocation")
                         .IsRequired()
-                        .HasColumnType("geography (point)")
+                        .HasColumnType("geometry (point, 4326)")
                         .HasColumnName("accident_location");
 
                     b.Property<int>("AccidentType")

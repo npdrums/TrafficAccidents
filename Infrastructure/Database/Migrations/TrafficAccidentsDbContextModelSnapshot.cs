@@ -33,7 +33,7 @@ namespace Infrastructure.Database.Migrations
 
                     b.Property<Point>("AccidentLocation")
                         .IsRequired()
-                        .HasColumnType("geography (point)")
+                        .HasColumnType("geometry (point, 4326)")
                         .HasColumnName("accident_location");
 
                     b.Property<int>("AccidentType")

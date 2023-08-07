@@ -16,7 +16,11 @@ public class TrafficAccidentEntityTypeConfiguration : IEntityTypeConfiguration<T
         builder.Property(x => x.ExternalTrafficAccidentId).IsRequired().HasMaxLength(10);
         builder.Property(x => x.PoliceDepartment).IsRequired().HasMaxLength(150);
         builder.Property(x => x.ReportedOn).IsRequired();
-        builder.Property(x => x.AccidentLocation).HasColumnType("geography (point)").IsRequired(); // Default SRID: 4326
+
+        // According to: http://postgis.net/workshops/postgis-intro/geography.html#why-not-use-geography
+        // If geometries are compact (country, city, municipality level) Geometry type can be used with appropriate SRID
+
+        builder.Property(x => x.AccidentLocation).HasColumnType("geometry (point, 4326)").IsRequired();
         builder.Property(x => x.ParticipantsStatus).IsRequired();
         builder.Property(x => x.ParticipantsNominalCount).IsRequired();
         builder.Property(x => x.AccidentType).IsRequired();
