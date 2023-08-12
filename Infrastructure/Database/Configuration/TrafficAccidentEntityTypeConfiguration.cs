@@ -32,5 +32,6 @@ public class TrafficAccidentEntityTypeConfiguration : IEntityTypeConfiguration<T
 
         builder.HasOne(x => x.Municipality).WithMany().HasForeignKey(x => x.MunicipalityId);
         builder.HasOne(x => x.Settlement).WithMany().HasForeignKey(x => x.SettlementId);
+        builder.HasOne(x => x.City).WithMany().HasForeignKey(x => x.CityId);
     }
 }

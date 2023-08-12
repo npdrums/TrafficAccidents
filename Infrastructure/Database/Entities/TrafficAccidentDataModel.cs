@@ -30,5 +30,9 @@ public class TrafficAccidentDataModel
 
     public Guid? SettlementId { get; set; }
 
-    public virtual SettlementDataModel? Settlement { get; set; } = null!;
+    public virtual SettlementDataModel? Settlement { get; set; } = null!; 
+    
+    public Guid? CityId { get; set; }
+
+    public virtual CityDataModel? City { get; set; } = null!;
 }
