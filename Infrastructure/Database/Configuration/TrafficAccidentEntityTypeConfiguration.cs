@@ -11,8 +11,6 @@ public class TrafficAccidentEntityTypeConfiguration : IEntityTypeConfiguration<T
     {
         builder.HasKey(x => x.TrafficAccidentId);
 
-        builder.HasIndex(x => x.PoliceDepartment);
-
         builder.Property(x => x.ExternalTrafficAccidentId).IsRequired().HasMaxLength(10);
         builder.Property(x => x.PoliceDepartment).IsRequired().HasMaxLength(150);
         builder.Property(x => x.ReportedOn).IsRequired();
@@ -25,5 +23,14 @@ public class TrafficAccidentEntityTypeConfiguration : IEntityTypeConfiguration<T
         builder.Property(x => x.ParticipantsNominalCount).IsRequired();
         builder.Property(x => x.AccidentType).IsRequired();
         builder.Property(x => x.Description).IsRequired(false).HasMaxLength(400);
+
+        builder.HasIndex(x => x.PoliceDepartment);
+        builder.HasIndex(x => x.AccidentType);
+        builder.HasIndex(x => x.ParticipantsNominalCount);
+        builder.HasIndex(x => x.ParticipantsStatus);
+        builder.HasIndex(x => x.AccidentLocation).HasMethod("gist");
+
+        builder.HasOne(x => x.Municipality).WithMany().HasForeignKey(x => x.MunicipalityId);
+        builder.HasOne(x => x.Settlement).WithMany().HasForeignKey(x => x.SettlementId);
     }
 }

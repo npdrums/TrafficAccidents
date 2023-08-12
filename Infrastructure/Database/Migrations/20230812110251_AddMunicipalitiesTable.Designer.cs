@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Database.Migrations
 {
     [DbContext(typeof(TrafficAccidentsDbContext))]
-    [Migration("20230808162353_AddMunicipalitiesTable")]
+    [Migration("20230812110251_AddMunicipalitiesTable")]
     partial class AddMunicipalitiesTable
     {
         /// <inheritdoc />
@@ -27,17 +27,17 @@ namespace Infrastructure.Database.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Infrastructure.Database.Entities.Enums.MunicipalityDataModel", b =>
+            modelBuilder.Entity("Infrastructure.Database.Entities.MunicipalityDataModel", b =>
                 {
                     b.Property<Guid>("MunicipalityId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("municipality_id");
 
-                    b.Property<Geometry>("MunicipalityBorder")
+                    b.Property<Geometry>("MunicipalityArea")
                         .IsRequired()
                         .HasColumnType("geometry(geometry, 4326)")
-                        .HasColumnName("municipality_border");
+                        .HasColumnName("municipality_area");
 
                     b.Property<string>("MunicipalityName")
                         .IsRequired()
@@ -47,6 +47,11 @@ namespace Infrastructure.Database.Migrations
 
                     b.HasKey("MunicipalityId")
                         .HasName("pk_municipalities");
+
+                    b.HasIndex("MunicipalityArea")
+                        .HasDatabaseName("ix_municipalities_municipality_area");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("MunicipalityArea"), "gist");
 
                     b.ToTable("municipalities", (string)null);
                 });
@@ -78,6 +83,10 @@ namespace Infrastructure.Database.Migrations
                         .HasColumnType("character varying(10)")
                         .HasColumnName("external_traffic_accident_id");
 
+                    b.Property<Guid?>("MunicipalityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("municipality_id");
+
                     b.Property<int>("ParticipantsNominalCount")
                         .HasColumnType("integer")
                         .HasColumnName("participants_nominal_count");
@@ -99,10 +108,37 @@ namespace Infrastructure.Database.Migrations
                     b.HasKey("TrafficAccidentId")
                         .HasName("pk_traffic_accidents");
 
+                    b.HasIndex("AccidentLocation")
+                        .HasDatabaseName("ix_traffic_accidents_accident_location");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("AccidentLocation"), "gist");
+
+                    b.HasIndex("AccidentType")
+                        .HasDatabaseName("ix_traffic_accidents_accident_type");
+
+                    b.HasIndex("MunicipalityId")
+                        .HasDatabaseName("ix_traffic_accidents_municipality_id");
+
+                    b.HasIndex("ParticipantsNominalCount")
+                        .HasDatabaseName("ix_traffic_accidents_participants_nominal_count");
+
+                    b.HasIndex("ParticipantsStatus")
+                        .HasDatabaseName("ix_traffic_accidents_participants_status");
+
                     b.HasIndex("PoliceDepartment")
                         .HasDatabaseName("ix_traffic_accidents_police_department");
 
                     b.ToTable("traffic_accidents");
+                });
+
+            modelBuilder.Entity("Infrastructure.Database.Entities.TrafficAccidentDataModel", b =>
+                {
+                    b.HasOne("Infrastructure.Database.Entities.MunicipalityDataModel", "Municipality")
+                        .WithMany()
+                        .HasForeignKey("MunicipalityId")
+                        .HasConstraintName("fk_traffic_accidents_municipalities_municipality_id");
+
+                    b.Navigation("Municipality");
                 });
 #pragma warning restore 612, 618
         }
