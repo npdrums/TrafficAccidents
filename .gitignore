@@ -397,14 +397,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-/DataSeedingTool/SeedData/municipalities.geojson
-/DataSeedingTool/SeedData/nez-opendata-2015.csv
-/DataSeedingTool/SeedData/nez-opendata-2016.csv
-/DataSeedingTool/SeedData/nez-opendata-2017.csv
-/DataSeedingTool/SeedData/nez-opendata-2018.csv
-/DataSeedingTool/SeedData/nez-opendata-2019-20200125.csv
-/DataSeedingTool/SeedData/nez-opendata-2020-20210125.csv
-/DataSeedingTool/SeedData/nez-opendata-2021-20220125.csv
-/DataSeedingTool/SeedData/nez-opendata-2022-20230125.csv
-/DataSeedingTool/SeedData/nez-opendata-2023-20230425.csv
-/DataSeedingTool/SeedData/settlements.geojson
+/DataSeedingTool/SeedData/

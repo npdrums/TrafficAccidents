@@ -93,6 +93,29 @@ try
 
         #endregion Import Settlements
 
+        #region Import Cities
+
+        var citiesFilePath = configuration.GetSection("Datasets:Cities").Get<string>()!;
+        using var citiesReader = new StreamReader(citiesFilePath);
+        var citiesGeoJson = await citiesReader.ReadToEndAsync(cancellationTokenSource.Token);
+
+        var citiesFeatureCollection = geoJsonReader.Read<FeatureCollection>(citiesGeoJson)
+                                      ?? throw new InvalidOperationException(
+                                          "Provided Feature Collection is empty!");
+
+        var cities = citiesFeatureCollection.GetCities().ToList();
+
+        var citiesBulkCopyHelper = new PostgreSQLCopyHelper<CityDataModel>("public", "cities")
+            .MapUUID("city_id", x => x.CityId)
+            .MapText("city_name", x => x.CityName)
+            .Map("city_area", x => x.CityArea, NpgsqlDbType.Geometry);
+
+        rowsAffected = await citiesBulkCopyHelper.SaveAllAsync(connection, cities, cancellationTokenSource.Token);
+
+        Console.WriteLine($"Imported {rowsAffected} cities.");
+
+        #endregion Import Cities
+
         #region Import Traffic Accidents Data
 
         foreach (var path in configuration.GetSection("Datasets:TrafficAccidents").Get<IEnumerable<string>>()!)
@@ -115,6 +138,8 @@ try
             var records = csv.GetRecords<TrafficAccidentDataModel>();
             var trafficAccidents = records.ToList();
 
+            // This will take too much, refactor to run raw SQL
+
             foreach (var trafficAccident in trafficAccidents)
             {
                 var municipality =
@@ -124,8 +149,11 @@ try
 
                 var settlement = settlements.FirstOrDefault(x => x.SettlementArea.Covers(trafficAccident.AccidentLocation));
 
+                var city = cities.FirstOrDefault(x => x.CityArea.Covers(trafficAccident.AccidentLocation));
+
                 if (municipality is not null) trafficAccident.MunicipalityId = municipality.MunicipalityId;
                 if (settlement is not null) trafficAccident.SettlementId = settlement.SettlementId;
+                if (city is not null) trafficAccident.CityId = city.CityId;
             }
 
             var trafficAccidentsBulkCopyHelper =
@@ -140,7 +168,8 @@ try
                     .MapInteger("accident_type", x => (int)x.AccidentType)
                     .MapText("description", x => x.Description)
                     .MapUUID("municipality_id", x => x.MunicipalityId)
-                    .MapUUID("settlement_id", x => x.SettlementId);
+                    .MapUUID("settlement_id", x => x.SettlementId)
+                    .MapUUID("city_id", x => x.CityId);
 
             rowsAffected = await trafficAccidentsBulkCopyHelper.SaveAllAsync(connection, trafficAccidents,
                 cancellationTokenSource.Token);
