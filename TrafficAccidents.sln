@@ -11,15 +11,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Core", "2. Core", "{8DDA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. IoC Container", "4. IoC Container", "{E521F7E3-A6E8-4370-9DAA-AF83CF7B689F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{66F83519-0AE2-464B-86E6-9E75F84408C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{66F83519-0AE2-464B-86E6-9E75F84408C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{281D3734-E82F-4474-9B3D-0610EAE5F0C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{281D3734-E82F-4474-9B3D-0610EAE5F0C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{26507C81-C970-4AB9-B7BC-4DEAD2AF8A6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{26507C81-C970-4AB9-B7BC-4DEAD2AF8A6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{B7FCF7FB-F647-4842-BB2E-6D5F7C71CBF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{B7FCF7FB-F647-4842-BB2E-6D5F7C71CBF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC", "IoC\IoC.csproj", "{0F20F655-A2E2-4087-AB5C-8A485D5442D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoC", "IoC\IoC.csproj", "{0F20F655-A2E2-4087-AB5C-8A485D5442D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSeedingTool", "DataSeedingTool\DataSeedingTool.csproj", "{80014FFE-3780-4148-B7FD-D1830F224899}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Solution Items", "5. Solution Items", "{263CA49A-612E-41B3-BEDF-004623422276}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +56,10 @@ Global
 		{0F20F655-A2E2-4087-AB5C-8A485D5442D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F20F655-A2E2-4087-AB5C-8A485D5442D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F20F655-A2E2-4087-AB5C-8A485D5442D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80014FFE-3780-4148-B7FD-D1830F224899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80014FFE-3780-4148-B7FD-D1830F224899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80014FFE-3780-4148-B7FD-D1830F224899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80014FFE-3780-4148-B7FD-D1830F224899}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +70,7 @@ Global
 		{26507C81-C970-4AB9-B7BC-4DEAD2AF8A6F} = {8DDA889F-C514-4FA2-831B-E56820DB3C8D}
 		{B7FCF7FB-F647-4842-BB2E-6D5F7C71CBF1} = {8DDA889F-C514-4FA2-831B-E56820DB3C8D}
 		{0F20F655-A2E2-4087-AB5C-8A485D5442D8} = {E521F7E3-A6E8-4370-9DAA-AF83CF7B689F}
+		{80014FFE-3780-4148-B7FD-D1830F224899} = {93765B07-0D58-4A9A-A4BB-095B034DFF36}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {320E19BE-23D0-41E5-9ED4-405ED37868B1}

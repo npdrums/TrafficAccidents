@@ -23,4 +23,12 @@ public class TrafficAccidentDataModel
     public DataAccidentType AccidentType { get; set; }
 
     public string Description { get; set; } = null!;
+
+    public Guid? MunicipalityId { get; set; }
+
+    public virtual MunicipalityDataModel? Municipality { get; set; } = null!;
+
+    public Guid? SettlementId { get; set; }
+
+    public virtual SettlementDataModel? Settlement { get; set; } = null!;
 }

@@ -1,6 +1,6 @@
 ﻿using NetTopologySuite.Geometries;
 
-namespace Infrastructure.Database.Entities.Enums;
+namespace Infrastructure.Database.Entities;
 
 public class MunicipalityDataModel
 {
@@ -8,5 +8,5 @@ public class MunicipalityDataModel
 
     public string MunicipalityName { get; set; } = null!;
 
-    public Geometry MunicipalityBorder { get; set; } = null!;
+    public Geometry MunicipalityArea { get; set; } = null!;
 }
