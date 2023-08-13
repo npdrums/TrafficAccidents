@@ -138,8 +138,6 @@ try
             var records = csv.GetRecords<TrafficAccidentDataModel>();
             var trafficAccidents = records.ToList();
 
-            // This will take too much, refactor to run raw SQL
-
             foreach (var trafficAccident in trafficAccidents)
             {
                 var municipality =
@@ -147,13 +145,7 @@ try
                         ?? municipalities.FirstOrDefault(x => 
                         x.MunicipalityName.Contains(trafficAccident.Municipality!.MunicipalityName));
 
-                var settlement = settlements.FirstOrDefault(x => x.SettlementArea.Covers(trafficAccident.AccidentLocation));
-
-                var city = cities.FirstOrDefault(x => x.CityArea.Covers(trafficAccident.AccidentLocation));
-
                 if (municipality is not null) trafficAccident.MunicipalityId = municipality.MunicipalityId;
-                if (settlement is not null) trafficAccident.SettlementId = settlement.SettlementId;
-                if (city is not null) trafficAccident.CityId = city.CityId;
             }
 
             var trafficAccidentsBulkCopyHelper =
@@ -167,9 +159,7 @@ try
                     .MapInteger("participants_nominal_count", x => (int)x.ParticipantsNominalCount)
                     .MapInteger("accident_type", x => (int)x.AccidentType)
                     .MapText("description", x => x.Description)
-                    .MapUUID("municipality_id", x => x.MunicipalityId)
-                    .MapUUID("settlement_id", x => x.SettlementId)
-                    .MapUUID("city_id", x => x.CityId);
+                    .MapUUID("municipality_id", x => x.MunicipalityId);
 
             rowsAffected = await trafficAccidentsBulkCopyHelper.SaveAllAsync(connection, trafficAccidents,
                 cancellationTokenSource.Token);
@@ -178,6 +168,36 @@ try
         }
 
         #endregion Import Traffic Accidents Data
+
+        #region Update Foreign Keys
+
+        await using var sqlCommand = connection.CreateCommand();
+     
+        sqlCommand.CommandText = """
+            UPDATE public.traffic_accidents
+            SET city_id=subquery.city_id
+            FROM (SELECT city_id, city_area
+            	 FROM public.cities) AS subquery
+            WHERE ST_Covers(subquery.city_area, accident_location)
+            """;
+
+        rowsAffected = (ulong)await sqlCommand.ExecuteNonQueryAsync();
+
+        Console.WriteLine($"Updated {rowsAffected} traffic accidents with cities.");
+
+        sqlCommand.CommandText = """
+            UPDATE public.traffic_accidents
+            SET settlement_id=subquery.settlement_id
+            FROM (SELECT settlement_id, settlement_area
+            	 FROM public.settlements) AS subquery
+            WHERE ST_Covers(subquery.settlement_area, accident_location)
+            """;
+
+        rowsAffected = (ulong)await sqlCommand.ExecuteNonQueryAsync();
+
+        Console.WriteLine($"Updated {rowsAffected} traffic accidents with settlements.");
+
+        #endregion
     }
 }
 catch (Exception e)
