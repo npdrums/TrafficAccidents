@@ -1,4 +1,5 @@
-﻿using Infrastructure.DependencyInjection;
+﻿using Infrastructure.Database.Mappers;
+using Infrastructure.DependencyInjection;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,8 @@ public static class IoCContainer
     {
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(configuration);
+
+        services.AddAutoMapper(x => x.AddProfile(new DatabaseMappingProfile()));
 
         services
             .AddDatabaseServices(configuration.GetConnectionString("DefaultConnection"));
