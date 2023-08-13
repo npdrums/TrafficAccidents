@@ -7,4 +7,6 @@ namespace Infrastructure.Database.Interfaces;
 public interface ITrafficAccidentsDbContext
 {
     DbSet<TrafficAccidentDataModel> TrafficAccidents { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

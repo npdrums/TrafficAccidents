@@ -1,6 +1,7 @@
-﻿using Infrastructure.Database;
+﻿using Domain.Interfaces;
+using Infrastructure.Database;
 using Infrastructure.Database.Interfaces;
-
+using Infrastructure.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,7 +20,11 @@ public static class InfrastructureServiceCollectionExtensions
         dataSourceBuilder.UseNetTopologySuite();
         var dataSource = dataSourceBuilder.Build();
 
-        return services.AddDbContext<ITrafficAccidentsDbContext, TrafficAccidentsDbContext>(options =>
+        services.AddDbContext<ITrafficAccidentsDbContext, TrafficAccidentsDbContext>(options =>
             options.UseNpgsql(dataSource, o => o.UseNetTopologySuite()));
+
+        services.AddTransient<ITrafficAccidentsRepository, TrafficAccidentsRepository>();
+
+        return services;
     }
 }
