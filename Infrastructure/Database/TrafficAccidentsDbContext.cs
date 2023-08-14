@@ -16,6 +16,9 @@ public class TrafficAccidentsDbContext : DbContext, ITrafficAccidentsDbContext
     }
 
     public DbSet<TrafficAccidentDataModel> TrafficAccidents => Set<TrafficAccidentDataModel>();
+    public DbSet<MunicipalityDataModel> Municipalities => Set<MunicipalityDataModel>();
+    public DbSet<SettlementDataModel> Settlements => Set<SettlementDataModel>();
+    public DbSet<CityDataModel> Cities => Set<CityDataModel>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -4,7 +4,7 @@ namespace Domain.Interfaces;
 
 public interface ITrafficAccidentsRepository
 {
-    Task CreateTrafficAccidentAsync(TrafficAccident trafficAccident);
+    Task<TrafficAccident?> CreateTrafficAccidentAsync(TrafficAccident trafficAccident);
 
-    Task<TrafficAccident?> GetByExternalId(string externalId);
+    Task<TrafficAccident?> GetTrafficAccidentByExternalIdAsync(string externalId);
 }

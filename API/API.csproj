@@ -18,4 +18,9 @@
     <ProjectReference Include="..\IoC\IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Mappers\" />
+  </ItemGroup>
+
 </Project>

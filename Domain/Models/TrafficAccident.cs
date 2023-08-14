@@ -6,43 +6,48 @@ namespace Domain.Models;
 
 public class TrafficAccident
 {
-    public TrafficAccident(
-        string externalTrafficAccidentId, string policeDepartment, string description,
-        string? municipalityName, string? settlementName, string? cityName, AccidentType accidentType,
-        ParticipantsNominalCount participantsNominalCount, ParticipantsStatus participantsStatus,
-        Point accidentLocation, DateTime reportedOn)
+    private TrafficAccident() { }
+
+    public TrafficAccident(string externalTrafficAccidentId, string policeDepartment, string description,
+        AccidentType accidentType, ParticipantsNominalCount participantsNominalCount,
+        ParticipantsStatus participantsStatus,
+        Point accidentLocation, DateTime reportedOn,
+        string? municipalityName = null,
+        string? settlementName = null,
+        string? cityName = null) : this()
     {
         ExternalTrafficAccidentId = externalTrafficAccidentId;
         PoliceDepartment = policeDepartment;
         Description = description;
-        MunicipalityName = municipalityName;
-        SettlementName = settlementName;
-        CityName = cityName;
         AccidentType = accidentType;
         ParticipantsNominalCount = participantsNominalCount;
         ParticipantsStatus = participantsStatus;
         AccidentLocation = accidentLocation;
         ReportedOn = reportedOn;
+        MunicipalityName ??= municipalityName;
+        SettlementName ??= settlementName;
+        CityName ??= cityName;
     }
 
-    public TrafficAccident(
-        string externalTrafficAccidentId, string policeDepartment, string description,
-        string? municipalityName, string? settlementName, string? cityName, AccidentType accidentType,
-        ParticipantsNominalCount participantsNominalCount, ParticipantsStatus participantsStatus,
-        double latitude, double longitude, DateTime reportedOn)
+    public TrafficAccident(string externalTrafficAccidentId, string policeDepartment, string description,
+        AccidentType accidentType, ParticipantsNominalCount participantsNominalCount, ParticipantsStatus participantsStatus,
+        double longitude, double latitude, DateTime reportedOn,
+        string? municipalityName = null,
+        string? settlementName = null,
+        string? cityName = null)
         : this(
-            externalTrafficAccidentId, policeDepartment, description, municipalityName, settlementName, cityName,
-            accidentType, participantsNominalCount, participantsStatus, new Point(latitude, longitude), reportedOn)
+            externalTrafficAccidentId, policeDepartment, description, accidentType, participantsNominalCount, participantsStatus, 
+            new Point(longitude, latitude) { SRID = Srid.Wgs84 }, reportedOn, municipalityName, settlementName, cityName)
     {
     }
 
-    public string ExternalTrafficAccidentId { get; }
+    public string ExternalTrafficAccidentId { get; } = null!;
 
-    public string PoliceDepartment { get; }
+    public string PoliceDepartment { get; } = null!;
 
     public DateTime ReportedOn { get; }
 
-    public Point AccidentLocation { get; }
+    public Point AccidentLocation { get; } = null!;
 
     public ParticipantsStatus ParticipantsStatus { get; }
 
