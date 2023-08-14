@@ -1,3 +1,6 @@
+using API.Mappers;
+using AutoMapper;
+using Infrastructure.Database.Mappers;
 using IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +12,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddWebApiServices(builder.Configuration);
+
+builder.Services.AddAutoMapper(x =>
+    x.AddProfiles(new List<Profile>
+    {
+        new ApiMappingProfile(), 
+        new DatabaseMappingProfile()
+    }));
 
 var app = builder.Build();
 
