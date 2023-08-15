@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Database.Migrations
 {
     [DbContext(typeof(TrafficAccidentsDbContext))]
-    partial class TrafficAccidentsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230815214734_AddExternalTrafficAccidentId")]
+    partial class AddExternalTrafficAccidentId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,10 +199,6 @@ namespace Infrastructure.Database.Migrations
 
                     b.HasIndex("CityId")
                         .HasDatabaseName("ix_traffic_accidents_city_id");
-
-                    b.HasIndex("ExternalTrafficAccidentId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_traffic_accidents_external_traffic_accident_id");
 
                     b.HasIndex("MunicipalityId")
                         .HasDatabaseName("ix_traffic_accidents_municipality_id");

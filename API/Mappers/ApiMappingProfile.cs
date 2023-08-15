@@ -3,6 +3,7 @@
 using AutoMapper;
 
 using Domain.Models;
+using NetTopologySuite.Geometries;
 
 namespace API.Mappers;
 
@@ -11,8 +12,7 @@ public class ApiMappingProfile : Profile
     public ApiMappingProfile()
     {
         CreateMap<TrafficAccidentRequest, TrafficAccident>()
-            .ForCtorParam("longitude", opt => opt.MapFrom(src => src.Longitude))
-            .ForCtorParam("latitude", opt => opt.MapFrom(src => src.Latitude));
+            .ForMember(dest => dest.AccidentLocation, opt => opt.MapFrom(x => new Point(x.Longitude, x.Latitude)));
 
         CreateMap<TrafficAccident, TrafficAccidentResponse>()
             .ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.AccidentLocation.X))

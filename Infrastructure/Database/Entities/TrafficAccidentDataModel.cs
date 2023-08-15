@@ -8,7 +8,9 @@ public class TrafficAccidentDataModel
 {
     public Guid TrafficAccidentId { get; set; }
 
-    public string ExternalTrafficAccidentId { get; set; } = null!;
+    public Guid ExternalTrafficAccidentId { get; set; }
+
+    public string CaseNumber { get; set; } = null!;
 
     public string PoliceDepartment { get; set; } = null!;
 
@@ -23,6 +25,8 @@ public class TrafficAccidentDataModel
     public DataAccidentType AccidentType { get; set; }
 
     public string Description { get; set; } = null!;
+
+    public bool IsDeleted { get; set; }
 
     public Guid? MunicipalityId { get; set; }
 

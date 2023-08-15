@@ -13,10 +13,8 @@ public class DatabaseMappingProfile : Profile
         CreateMap<TrafficAccident, TrafficAccidentDataModel>();
 
         CreateMap<TrafficAccidentDataModel, TrafficAccident>()
-            .ForCtorParam("municipalityName", opt => opt.MapFrom(x => x.Municipality!.MunicipalityName))
-            .ForCtorParam("settlementName", opt => opt.MapFrom(x => x.Settlement!.SettlementName))
-            .ForCtorParam("cityName", opt => opt.MapFrom(x => x.City!.CityName));
-
-
+            .ForMember(x => x.MunicipalityName, opt => opt.MapFrom(x => x.Municipality!.MunicipalityName))
+            .ForMember(x => x.SettlementName, opt => opt.MapFrom(x => x.Settlement!.SettlementName))
+            .ForMember(x => x.CityName, opt => opt.MapFrom(x => x.City!.CityName));
     }
 }

@@ -23,11 +23,8 @@ public class TrafficAccidentsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<TrafficAccident>> CreateTrafficAccident([FromBody] TrafficAccidentRequest trafficAccidentRequest)
+    public async Task<ActionResult<TrafficAccidentResponse>> CreateTrafficAccident([FromBody] TrafficAccidentRequest trafficAccidentRequest)
     {
-        var watch = new System.Diagnostics.Stopwatch();
-        watch.Start();
-
         var trafficAccident = _mapper.Map<TrafficAccident>(trafficAccidentRequest);
 
         var savedTrafficAccident= await _trafficAccidentsService.CreateTrafficAccident(trafficAccident);
@@ -36,20 +33,26 @@ public class TrafficAccidentsController : ControllerBase
 
         var trafficAccidentResponse = _mapper.Map<TrafficAccidentResponse>(savedTrafficAccident);
 
-        Console.WriteLine($"Execution time: {watch.ElapsedMilliseconds}");
-
         return Ok(trafficAccidentResponse);
     }
 
-    [HttpGet("{externalId}")]
-    public async Task<ActionResult<TrafficAccidentResponse>> GetTrafficAccident(string externalId)
+    [HttpGet("{caseNumber}")]
+    public async Task<ActionResult<IReadOnlyList<TrafficAccidentResponse>>> GetTrafficAccidentsByCaseNumber(string caseNumber)
     {
-        var trafficAccident = await _trafficAccidentsService.GetTrafficAccidentByExternalId(externalId);
+        var trafficAccident = await _trafficAccidentsService.GetTrafficAccidentsByCaseNumber(caseNumber);
 
-        if (trafficAccident is null) return NotFound("Sorry! Not found!");
+        if (trafficAccident.Count == 0) return NotFound("Sorry! Not found!");
 
-        var trafficAccidentResponse = _mapper.Map<TrafficAccidentResponse>(trafficAccident);
+        var trafficAccidentResponse = _mapper.Map<IReadOnlyList<TrafficAccidentResponse>>(trafficAccident);
         
         return Ok(trafficAccidentResponse);
+    }
+    
+    [HttpDelete("{externalId}")]
+    public async Task<IActionResult> DeleteTrafficAccident(Guid externalId)
+    {
+        await _trafficAccidentsService.DeleteTrafficAccident(externalId);
+
+        return NoContent();
     }
 }

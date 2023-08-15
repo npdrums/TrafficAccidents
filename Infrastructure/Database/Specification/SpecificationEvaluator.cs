@@ -1,13 +1,11 @@
-﻿using Infrastructure.Database.Entities;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database.Specification;
 
 public static class SpecificationEvaluator
 {
     public static IQueryable<T> GetQuery<T>(IQueryable<T> inputQuery, Specification<T> specification)
-    where T : TrafficAccidentDataModel
+    where T : class
     {
         var query = inputQuery;
         if (specification.Criteria is not null)
@@ -30,7 +28,7 @@ public static class SpecificationEvaluator
         }
 
         query = specification.Includes.Aggregate(query, (current, include)
-            => current.Include(include!).DefaultIfEmpty()!);
+            => current.Include(include!));
 
         return query;
     }

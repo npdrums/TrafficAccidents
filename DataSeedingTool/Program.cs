@@ -151,7 +151,8 @@ try
             var trafficAccidentsBulkCopyHelper =
                 new PostgreSQLCopyHelper<TrafficAccidentDataModel>("public", "traffic_accidents")
                     .MapUUID("traffic_accident_id", _ => Guid.NewGuid())
-                    .MapText("external_traffic_accident_id", x => x.ExternalTrafficAccidentId)
+                    .MapUUID("external_traffic_accident_id", _ => Guid.NewGuid())
+                    .MapText("case_number", x => x.CaseNumber)
                     .MapText("police_department", x => x.PoliceDepartment)
                     .MapTimeStampTz("reported_on", x => x.ReportedOn)
                     .Map("accident_location", x => x.AccidentLocation, NpgsqlDbType.Geometry)
