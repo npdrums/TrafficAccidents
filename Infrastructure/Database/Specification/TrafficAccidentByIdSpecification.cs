@@ -4,12 +4,8 @@ namespace Infrastructure.Database.Specification;
 
 public class TrafficAccidentByExternalIdSpecification : Specification<TrafficAccidentDataModel>
 {
-    public TrafficAccidentByExternalIdSpecification(string externalId) : base(x => x.ExternalTrafficAccidentId == externalId)
+    public TrafficAccidentByExternalIdSpecification(Guid externalId)
+        : base(x => x.ExternalTrafficAccidentId == externalId && !x.IsDeleted)
     {
-        AddInclude(x => x.Municipality!);
-        AddInclude(x => x.Settlement!);
-        AddInclude(x => x.City!);
-
-        IsSplitQuery = true;
     }
 }

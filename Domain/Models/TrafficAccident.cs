@@ -6,60 +6,38 @@ namespace Domain.Models;
 
 public class TrafficAccident
 {
-    private TrafficAccident() { }
+    public Guid ExternalTrafficAccidentId { get; set; }
 
-    public TrafficAccident(string externalTrafficAccidentId, string policeDepartment, string description,
-        AccidentType accidentType, ParticipantsNominalCount participantsNominalCount,
-        ParticipantsStatus participantsStatus,
-        Point accidentLocation, DateTime reportedOn,
-        string? municipalityName = null,
-        string? settlementName = null,
-        string? cityName = null) : this()
+    public required string CaseNumber { get; init; }
+
+    public required string PoliceDepartment { get; init; }
+
+    public required DateTime ReportedOn { get; init; }
+
+
+    private readonly Point _accidentLocation = null!;
+
+    public required Point AccidentLocation
     {
-        ExternalTrafficAccidentId = externalTrafficAccidentId;
-        PoliceDepartment = policeDepartment;
-        Description = description;
-        AccidentType = accidentType;
-        ParticipantsNominalCount = participantsNominalCount;
-        ParticipantsStatus = participantsStatus;
-        AccidentLocation = accidentLocation;
-        ReportedOn = reportedOn;
-        MunicipalityName ??= municipalityName;
-        SettlementName ??= settlementName;
-        CityName ??= cityName;
+        get => _accidentLocation;
+        init
+        {
+            _accidentLocation = value;
+            _accidentLocation.SRID = Srid.Wgs84;
+        }
     }
 
-    public TrafficAccident(string externalTrafficAccidentId, string policeDepartment, string description,
-        AccidentType accidentType, ParticipantsNominalCount participantsNominalCount, ParticipantsStatus participantsStatus,
-        double longitude, double latitude, DateTime reportedOn,
-        string? municipalityName = null,
-        string? settlementName = null,
-        string? cityName = null)
-        : this(
-            externalTrafficAccidentId, policeDepartment, description, accidentType, participantsNominalCount, participantsStatus, 
-            new Point(longitude, latitude) { SRID = Srid.Wgs84 }, reportedOn, municipalityName, settlementName, cityName)
-    {
-    }
+    public required ParticipantsStatus ParticipantsStatus { get; init; }
 
-    public string ExternalTrafficAccidentId { get; } = null!;
+    public required ParticipantsNominalCount ParticipantsNominalCount { get; init; }
 
-    public string PoliceDepartment { get; } = null!;
+    public required AccidentType AccidentType { get; init; }
 
-    public DateTime ReportedOn { get; }
+    public string? Description { get; set; }
 
-    public Point AccidentLocation { get; } = null!;
+    public string? MunicipalityName { get; set; }
 
-    public ParticipantsStatus ParticipantsStatus { get; }
+    public string? SettlementName { get; set; }
 
-    public ParticipantsNominalCount ParticipantsNominalCount { get; }
-
-    public AccidentType AccidentType { get; }
-
-    public string? Description { get; }
-
-    public string? MunicipalityName { get; }
-
-    public string? SettlementName { get; }
-
-    public string? CityName { get; }
+    public string? CityName { get; set; }
 }

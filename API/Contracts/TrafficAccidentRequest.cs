@@ -4,7 +4,7 @@ namespace API.Contracts;
 
 public class TrafficAccidentRequest
 {
-    public string ExternalTrafficAccidentId { get; set; } = null!;
+    public string CaseNumber { get; set; } = null!;
 
     public string PoliceDepartment { get; set; } = null!;
 
