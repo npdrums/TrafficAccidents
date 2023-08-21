@@ -15,9 +15,21 @@ public class TrafficAccidentsService : ITrafficAccidentsService
     public async Task<TrafficAccident?> CreateTrafficAccident(TrafficAccident trafficAccident) 
         => await _repository.CreateTrafficAccidentAsync(trafficAccident);
 
+    public async Task<TrafficAccident?> UpdateTrafficAccident(TrafficAccident trafficAccident) 
+        => await _repository.UpdateTrafficAccidentAsync(trafficAccident);
+
+    public async Task<TrafficAccident?> UpdateTrafficAccidentDescription(Guid trafficAccidentId, string description)
+    {
+        // TODO: Validate text size?
+        return await _repository.UpdateTrafficAccidentDescriptionAsync(trafficAccidentId, description);
+    }
+
     public async Task<IReadOnlyList<TrafficAccident?>> GetTrafficAccidentsByCaseNumber(string caseNumber)
         => await _repository.GetTrafficAccidentsByCaseNumberAsync(caseNumber);
 
-    public async Task DeleteTrafficAccident(Guid externalId)
-        => await _repository.DeleteTrafficAccidentAsync(externalId);
+    public async Task<TrafficAccident?> GetTrafficAccidentsById(Guid trafficAccidentId)
+        => await _repository.GetTrafficAccidentsByIdAsync(trafficAccidentId);
+
+    public async Task DeleteTrafficAccident(Guid trafficAccidentId)
+        => await _repository.DeleteTrafficAccidentAsync(trafficAccidentId);
 }

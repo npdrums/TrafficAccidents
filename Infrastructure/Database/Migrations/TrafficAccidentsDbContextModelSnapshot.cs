@@ -142,12 +142,6 @@ namespace Infrastructure.Database.Migrations
                         .HasColumnType("character varying(400)")
                         .HasColumnName("description");
 
-                    b.Property<Guid>("ExternalTrafficAccidentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("external_traffic_accident_id")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -197,10 +191,6 @@ namespace Infrastructure.Database.Migrations
                     b.HasIndex("CityId")
                         .HasDatabaseName("ix_traffic_accidents_city_id");
 
-                    b.HasIndex("ExternalTrafficAccidentId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_traffic_accidents_external_traffic_accident_id");
-
                     b.HasIndex("MunicipalityId")
                         .HasDatabaseName("ix_traffic_accidents_municipality_id");
 
@@ -216,7 +206,7 @@ namespace Infrastructure.Database.Migrations
                     b.HasIndex("SettlementId")
                         .HasDatabaseName("ix_traffic_accidents_settlement_id");
 
-                    b.ToTable("traffic_accidents");
+                    b.ToTable("traffic_accidents", (string)null);
                 });
 
             modelBuilder.Entity("Infrastructure.Database.Entities.TrafficAccidentDataModel", b =>

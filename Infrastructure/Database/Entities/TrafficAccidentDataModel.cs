@@ -8,8 +8,6 @@ public class TrafficAccidentDataModel
 {
     public Guid TrafficAccidentId { get; set; }
 
-    public Guid ExternalTrafficAccidentId { get; set; }
-
     public string CaseNumber { get; set; } = null!;
 
     public string PoliceDepartment { get; set; } = null!;
