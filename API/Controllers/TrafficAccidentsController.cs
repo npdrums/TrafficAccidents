@@ -11,6 +11,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 public class TrafficAccidentsController : ControllerBase
 {
     private readonly ITrafficAccidentsService _trafficAccidentsService;
@@ -23,11 +24,30 @@ public class TrafficAccidentsController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(201)]
+    [ProducesResponseType(400)]
     public async Task<ActionResult<TrafficAccidentResponse>> CreateTrafficAccident([FromBody] TrafficAccidentRequest trafficAccidentRequest)
     {
         var trafficAccident = _mapper.Map<TrafficAccident>(trafficAccidentRequest);
 
-        var savedTrafficAccident= await _trafficAccidentsService.CreateTrafficAccident(trafficAccident);
+        var savedTrafficAccident = await _trafficAccidentsService.CreateTrafficAccident(trafficAccident);
+
+        if (savedTrafficAccident is null) return BadRequest("Oops! Something went wrong!");
+
+        var trafficAccidentResponse = _mapper.Map<TrafficAccidentResponse>(savedTrafficAccident);
+
+        return Created($"{trafficAccidentResponse.TrafficAccidentId}",trafficAccidentResponse);
+    }
+
+    [HttpPut]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<TrafficAccidentResponse>> UpdateTrafficAccident(
+        [FromBody] TrafficAccidentUpdateRequest trafficAccidentUpdateRequest)
+    {
+        var trafficAccident = _mapper.Map<TrafficAccident>(trafficAccidentUpdateRequest);
+
+        var savedTrafficAccident = await _trafficAccidentsService.UpdateTrafficAccident(trafficAccident);
 
         if (savedTrafficAccident is null) return BadRequest("Oops! Something went wrong!");
 
@@ -36,22 +56,54 @@ public class TrafficAccidentsController : ControllerBase
         return Ok(trafficAccidentResponse);
     }
 
+    [HttpPatch("{trafficAccidentId:guid}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<TrafficAccidentResponse>> UpdateTrafficAccidentDescription(
+        Guid trafficAccidentId, [FromBody] string description)
+    {
+        var trafficAccident = await _trafficAccidentsService.UpdateTrafficAccidentDescription(trafficAccidentId, description);
+
+        if (trafficAccident is null) return BadRequest("Oops! Something went wrong!");
+
+        var trafficAccidentResponse = _mapper.Map<TrafficAccidentResponse>(trafficAccident);
+
+        return Ok(trafficAccidentResponse);
+    }
+
+    [HttpGet("{trafficAccidentId:guid}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<IReadOnlyList<TrafficAccidentResponse>>> GetTrafficAccidentById(Guid trafficAccidentId)
+    {
+        var trafficAccident = await _trafficAccidentsService.GetTrafficAccidentsById(trafficAccidentId);
+
+        if (trafficAccident is null) return NotFound("Sorry! Not found!");
+
+        var trafficAccidentResponse = _mapper.Map<TrafficAccidentResponse>(trafficAccident);
+        
+        return Ok(trafficAccidentResponse);
+    }
+
     [HttpGet("{caseNumber}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
     public async Task<ActionResult<IReadOnlyList<TrafficAccidentResponse>>> GetTrafficAccidentsByCaseNumber(string caseNumber)
     {
         var trafficAccident = await _trafficAccidentsService.GetTrafficAccidentsByCaseNumber(caseNumber);
 
         if (trafficAccident.Count == 0) return NotFound("Sorry! Not found!");
 
-        var trafficAccidentResponse = _mapper.Map<IReadOnlyList<TrafficAccidentResponse>>(trafficAccident);
-        
-        return Ok(trafficAccidentResponse);
+        var trafficAccidentsResponse = _mapper.Map<IReadOnlyList<TrafficAccidentResponse>>(trafficAccident);
+
+        return Ok(trafficAccidentsResponse);
     }
-    
-    [HttpDelete("{externalId}")]
-    public async Task<IActionResult> DeleteTrafficAccident(Guid externalId)
+
+    [HttpDelete("{trafficAccidentId:guid}")]
+    [ProducesResponseType(204)]
+    public async Task<IActionResult> DeleteTrafficAccident(Guid trafficAccidentId)
     {
-        await _trafficAccidentsService.DeleteTrafficAccident(externalId);
+        await _trafficAccidentsService.DeleteTrafficAccident(trafficAccidentId);
 
         return NoContent();
     }

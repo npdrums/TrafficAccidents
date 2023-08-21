@@ -46,6 +46,31 @@ public class TrafficAccidentsRepository : ITrafficAccidentsRepository
         return result > 0 ? _mapper.Map<TrafficAccident>(entityEntry.Entity) : default;
     }
 
+    public async Task<TrafficAccident?> UpdateTrafficAccidentAsync(TrafficAccident trafficAccident)
+    {
+        var trafficAccidentEntity = _mapper.Map<TrafficAccidentDataModel>(trafficAccident);
+
+        var entityEntry = _dbContext.Set<TrafficAccidentDataModel>()
+            .Update(trafficAccidentEntity);
+        
+        var result = await _dbContext.SaveChangesAsync();
+
+        return result > 0 ? _mapper.Map<TrafficAccident>(entityEntry.Entity) : default;
+    }
+
+    public async Task<TrafficAccident?> UpdateTrafficAccidentDescriptionAsync(Guid trafficAccidentId, string description)
+    {
+        var trafficAccidentEntity = await ApplySpecification(
+                new TrafficAccidentByIdSpecification(trafficAccidentId))
+            .FirstOrDefaultAsync();
+
+        if (trafficAccidentEntity is not null) trafficAccidentEntity.Description = description;
+
+        var result = await _dbContext.SaveChangesAsync();
+
+        return result > 0 ? _mapper.Map<TrafficAccident>(trafficAccidentEntity) : default;
+    }
+
     public async Task<IReadOnlyList<TrafficAccident?>> GetTrafficAccidentsByCaseNumberAsync(string caseNumber)
     {
         var trafficAccident = await ApplySpecification(
@@ -55,13 +80,23 @@ public class TrafficAccidentsRepository : ITrafficAccidentsRepository
         return _mapper.Map<IReadOnlyList<TrafficAccident>>(trafficAccident);
     }
 
-    public async Task DeleteTrafficAccidentAsync(Guid externalId)
+    public async Task<TrafficAccident?> GetTrafficAccidentsByIdAsync(Guid trafficAccidentId)
     {
-        var trafficAccidents = await ApplySpecification(
-            new TrafficAccidentByExternalIdSpecification(externalId))
+        var trafficAccident = await ApplySpecification(
+                new TrafficAccidentByIdWithIncludesSpecification(trafficAccidentId))
+            .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (trafficAccidents is not null) trafficAccidents.IsDeleted = true;
+        return _mapper.Map<TrafficAccident>(trafficAccident);
+    }
+
+    public async Task DeleteTrafficAccidentAsync(Guid trafficAccidentId)
+    {
+        var trafficAccident = await ApplySpecification(
+            new TrafficAccidentByIdSpecification(trafficAccidentId))
+            .FirstOrDefaultAsync();
+
+        if (trafficAccident is not null) trafficAccident.IsDeleted = true;
 
         await _dbContext.SaveChangesAsync();
     }

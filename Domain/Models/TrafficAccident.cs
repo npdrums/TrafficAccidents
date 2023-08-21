@@ -6,7 +6,7 @@ namespace Domain.Models;
 
 public class TrafficAccident
 {
-    public Guid ExternalTrafficAccidentId { get; set; }
+    public Guid TrafficAccidentId { get; set; }
 
     public required string CaseNumber { get; init; }
 

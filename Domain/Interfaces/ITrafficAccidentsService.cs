@@ -6,7 +6,13 @@ public interface ITrafficAccidentsService
 {
     Task<TrafficAccident?> CreateTrafficAccident(TrafficAccident trafficAccident);
 
+    Task<TrafficAccident?> UpdateTrafficAccident(TrafficAccident trafficAccident);
+    
+    Task<TrafficAccident?> UpdateTrafficAccidentDescription(Guid trafficAccidentId, string description);
+
     Task<IReadOnlyList<TrafficAccident?>> GetTrafficAccidentsByCaseNumber(string caseNumber);
 
-    Task DeleteTrafficAccident(Guid externalId);
+    Task<TrafficAccident?> GetTrafficAccidentsById(Guid trafficAccidentId);
+
+    Task DeleteTrafficAccident(Guid trafficAccidentId);
 }

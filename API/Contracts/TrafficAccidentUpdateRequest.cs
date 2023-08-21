@@ -2,9 +2,9 @@
 
 namespace API.Contracts;
 
-public class TrafficAccidentResponse
+public class TrafficAccidentUpdateRequest
 {
-    public Guid TrafficAccidentId { get; set; }
+    public required Guid TrafficAccidentId { get; set; }
 
     public string CaseNumber { get; set; } = null!;
 
@@ -23,10 +23,4 @@ public class TrafficAccidentResponse
     public AccidentType AccidentType { get; set; }
 
     public string? Description { get; set; }
-
-    public string? MunicipalityName { get; set; }
-
-    public string? SettlementName { get; set; }
-
-    public string? CityName { get; set; }
 }

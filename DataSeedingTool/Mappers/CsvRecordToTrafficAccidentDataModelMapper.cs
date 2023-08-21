@@ -16,7 +16,6 @@ public sealed class CsvRecordToTrafficAccidentDataModelMapper : ClassMap<Traffic
     public CsvRecordToTrafficAccidentDataModelMapper()
     {
         Map(x => x.TrafficAccidentId).Ignore();
-        Map(x => x.ExternalTrafficAccidentId).Ignore();
         Map(x => x.CaseNumber).Index(0);
         Map(x => x.PoliceDepartment).Index(1);
         Map(x => x.AccidentLocation).Convert(x =>

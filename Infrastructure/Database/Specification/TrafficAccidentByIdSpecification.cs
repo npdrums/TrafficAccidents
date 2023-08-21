@@ -2,10 +2,10 @@
 
 namespace Infrastructure.Database.Specification;
 
-public class TrafficAccidentByExternalIdSpecification : Specification<TrafficAccidentDataModel>
+public class TrafficAccidentByIdSpecification : Specification<TrafficAccidentDataModel>
 {
-    public TrafficAccidentByExternalIdSpecification(Guid externalId)
-        : base(x => x.ExternalTrafficAccidentId == externalId && !x.IsDeleted)
+    public TrafficAccidentByIdSpecification(Guid trafficAccidentId)
+        : base(x => x.TrafficAccidentId == trafficAccidentId && !x.IsDeleted)
     {
     }
 }
