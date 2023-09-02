@@ -398,3 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 /DataSeedingTool/SeedData/
+/angular-client/.vscode/
+/angular-client/ssl/
