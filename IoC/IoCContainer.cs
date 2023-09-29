@@ -1,6 +1,5 @@
 ﻿using Application.DependencyInjection;
 
-using Infrastructure.Database.Mappers;
 using Infrastructure.DependencyInjection;
 
 using Microsoft.Extensions.Configuration;

@@ -1,0 +1,30 @@
+<div class="container-fluid px-0 overflow-hidden">
+  <div class="row no-gutters">
+    <section class="col-3">
+      <div class="p-4">
+        <h5 class="text-primary ms-1">Show layers</h5>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="cities" />
+          <label class="form-check-label" for="cities">Include Cities</label>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="municipalities" />
+          <label class="form-check-label" for="municipalities"
+            >Include municipalities</label
+          >
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="settlements" />
+          <label class="form-check-label" for="settlements"
+            >Include Settlements</label
+          >
+        </div>
+        <hr />
+        <div></div>
+      </div>
+    </section>
+    <section class="col-9">
+      <app-map> </app-map>
+    </section>
+  </div>
+</div>
