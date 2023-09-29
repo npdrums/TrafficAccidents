@@ -1,6 +1,9 @@
 using API.Mappers;
+
 using AutoMapper;
+
 using Infrastructure.Database.Mappers;
+
 using IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +23,16 @@ builder.Services.AddAutoMapper(x =>
         new DatabaseMappingProfile()
     }));
 
+builder.Services.AddCors(x =>
+{
+    x.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithOrigins(builder.Configuration["ClientApplicationBaseUrl"]!);
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +41,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 

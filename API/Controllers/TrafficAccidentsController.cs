@@ -1,7 +1,7 @@
 ﻿using API.Contracts;
 
 using AutoMapper;
-
+using Domain.Enums;
 using Domain.Interfaces;
 using Domain.Models;
 
@@ -97,6 +97,30 @@ public class TrafficAccidentsController : ControllerBase
         var trafficAccidentsResponse = _mapper.Map<IReadOnlyList<TrafficAccidentResponse>>(trafficAccident);
 
         return Ok(trafficAccidentsResponse);
+    }
+
+    [HttpGet("participants-count")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<IReadOnlyList<ParticipantsNominalCount>>> GetParticipantsNominalCountList()
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpGet("participant-statuses")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<IReadOnlyList<ParticipantsStatus>>> GetParticipantsStatusList()
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpGet("accident-types")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<IReadOnlyList<AccidentType>>> GetAccidentTypeList()
+    {
+        throw new NotImplementedException();
     }
 
     [HttpDelete("{trafficAccidentId:guid}")]
