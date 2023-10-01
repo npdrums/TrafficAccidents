@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Enums;
+using Domain.Models;
 
 namespace Domain.Interfaces;
 
@@ -15,4 +16,10 @@ public interface ITrafficAccidentsRepository
     Task<TrafficAccident?> GetTrafficAccidentsByIdAsync(Guid trafficAccidentId);
 
     Task DeleteTrafficAccidentAsync(Guid trafficAccidentId);
+
+    Task<IReadOnlyList<AccidentType>> GetAccidentTypes();
+
+    Task<IReadOnlyList<ParticipantsStatus>> GetParticipantsStatuses();
+
+    Task<IReadOnlyList<ParticipantsNominalCount>> GetParticipantsNominalCounts();
 }

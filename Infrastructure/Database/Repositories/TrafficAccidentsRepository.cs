@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-
+using Domain.Enums;
 using Domain.Interfaces;
 using Domain.Models;
 
@@ -99,6 +99,33 @@ public class TrafficAccidentsRepository : ITrafficAccidentsRepository
         if (trafficAccident is not null) trafficAccident.IsDeleted = true;
 
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<IReadOnlyList<AccidentType>> GetAccidentTypes()
+    {
+        var accidentTypes = await _dbContext.Set<TrafficAccidentDataModel>()
+            .Select(x => x.AccidentType)
+            .Distinct().ToListAsync();
+
+        return _mapper.Map<IReadOnlyList<AccidentType>>(accidentTypes);
+    }
+
+    public async Task<IReadOnlyList<ParticipantsStatus>> GetParticipantsStatuses()
+    {
+        var participantsStatus = await _dbContext.Set<TrafficAccidentDataModel>()
+            .Select(x => x.ParticipantsStatus)
+            .Distinct().ToListAsync();
+
+        return _mapper.Map<IReadOnlyList<ParticipantsStatus>>(participantsStatus);
+    }
+
+    public async Task<IReadOnlyList<ParticipantsNominalCount>> GetParticipantsNominalCounts()
+    {
+        var participantsNominalCounts = await _dbContext.Set<TrafficAccidentDataModel>()
+            .Select(x => x.ParticipantsNominalCount)
+            .Distinct().ToListAsync();
+
+        return _mapper.Map<IReadOnlyList<ParticipantsNominalCount>>(participantsNominalCounts);
     }
 
     private IQueryable<T> ApplySpecification<T>(Specification<T> specification) where T : class 

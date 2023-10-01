@@ -2,7 +2,9 @@
 
 using AutoMapper;
 
+using Domain.Enums;
 using Domain.Models;
+
 using NetTopologySuite.Geometries;
 
 namespace API.Mappers;
@@ -20,5 +22,9 @@ public class ApiMappingProfile : Profile
         CreateMap<TrafficAccident, TrafficAccidentResponse>()
             .ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.AccidentLocation.X))
             .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.AccidentLocation.Y));
+
+        CreateMap<AccidentType, Contracts.Enums.AccidentType>();
+        CreateMap<ParticipantsNominalCount, Contracts.Enums.ParticipantsNominalCount>();
+        CreateMap<ParticipantsStatus, Contracts.Enums.ParticipantsStatus>();
     }
 }

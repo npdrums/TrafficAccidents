@@ -8,6 +8,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { NgHttpLoaderModule } from 'ng-http-loader';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     BrowserAnimationsModule,
     FontAwesomeModule,
     HttpClientModule,
-    DashboardModule
+    DashboardModule,
+    NgHttpLoaderModule.forRoot(), // <============ Don't forget to call 'forRoot()'!
   ],
   providers: [],
   bootstrap: [AppComponent]

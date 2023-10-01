@@ -1,4 +1,7 @@
 ﻿using Domain.Enums;
+using AccidentType = API.Contracts.Enums.AccidentType;
+using ParticipantsNominalCount = API.Contracts.Enums.ParticipantsNominalCount;
+using ParticipantsStatus = API.Contracts.Enums.ParticipantsStatus;
 
 namespace API.Contracts;
 

@@ -1,0 +1,172 @@
+<div class="container mt-3">
+  <h5 class="text-primary">{{isEdit ? 'Edit Traffic Accident' : 'Create Traffic Accident'}}</h5>
+  <form [formGroup]="form" (ngSubmit)="saveTrafficAccident()">
+    <div class="form-group">
+      <label for="caseNumber">Case Number</label>
+      <input
+        [disabled]="isEdit"
+        type="text"
+        class="form-control"
+        formControlName="caseNumber"
+        placeholder="Enter case number"
+      />
+      <small
+        class="form-text text-danger"
+        *ngIf="
+          formControls.caseNumber.touched &&
+          formControls.caseNumber.errors?.required
+        "
+        >Case Number is required</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="policeDepartment">Police Department</label>
+      <input
+        [disabled]="isEdit"
+        type="text"
+        class="form-control"
+        formControlName="policeDepartment"
+        placeholder="Enter police department"
+      />
+      <small
+        class="form-text text-danger"
+        *ngIf="
+          formControls.policeDepartment.touched &&
+          formControls.policeDepartment.errors?.required
+        "
+        >Police Department is required</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="reportedOn">Reported On</label>
+      <input
+        [disabled]="isEdit"
+        type="datetime-local"
+        class="form-control"
+        formControlName="reportedOn"
+      />
+      <small
+        class="form-text text-danger"
+        *ngIf="
+          formControls.reportedOn.touched &&
+          formControls.reportedOn.errors?.required
+        "
+        >Reported On is required</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="latitude">Latitude</label>
+      <input
+        [disabled]="true"
+        type="number"
+        class="form-control"
+        formControlName="latitude"
+        placeholder="Enter latitude"
+      />
+      <small
+        class="form-text text-danger"
+        *ngIf="
+          formControls.latitude.touched &&
+          formControls.latitude.errors?.required
+        "
+        >Latitude is required</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="longitude">Longitude</label>
+      <input
+        [disabled]="true"
+        type="number"
+        class="form-control"
+        formControlName="longitude"
+        placeholder="Enter longitude"
+      />
+      <small
+        class="form-text text-danger"
+        *ngIf="
+          formControls.longitude.touched &&
+          formControls.longitude.errors?.required
+        "
+        >Longitude is required</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="participantsStatus">Participants Status</label>
+      <select
+        class="form-control form-select"
+        formControlName="participantsStatus"
+      >
+        <option
+          *ngFor="let participantStatus of participantsStatuses"
+          [value]="participantStatus"
+        >
+          {{ formatEnumResponse(participantStatus) }}
+        </option>
+      </select>
+      <small
+        class="form-text text-danger"
+        *ngIf="
+          formControls.participantsStatus.touched &&
+          formControls.participantsStatus.errors?.required
+        "
+        >Participants Status is required</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="participantsNominalCount">Participants Nominal Count</label>
+      <select
+        class="form-control form-select"
+        formControlName="participantsNominalCount"
+      >
+        <option
+          *ngFor="let participanNominalCount of participantsNominalCounts"
+          [value]="participanNominalCount"
+        >
+          {{ formatEnumResponse(participanNominalCount) }}
+        </option>
+      </select>
+
+      <small
+        class="form-text text-danger"
+        *ngIf="
+          formControls.participantsNominalCount.touched &&
+          formControls.participantsNominalCount.errors?.required
+        "
+        >Participants Nominal Count is required</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="accidentType">Accident Type</label>
+      <select class="form-control form-select" formControlName="accidentType">
+        <option
+          *ngFor="let accidentType of accidentTypes"
+          [value]="accidentType"
+        >
+          {{ formatEnumResponse(accidentType) }}
+        </option>
+      </select>
+
+      <small
+        class="form-text text-danger"
+        *ngIf="
+          formControls.accidentType.touched &&
+          formControls.accidentType.errors?.required
+        "
+        >Accident Type is required</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        class="form-control"
+        formControlName="description"
+        rows="3"
+        placeholder="Enter description"
+      ></textarea>
+    </div>
+    <button class="btn btn-danger me-3" (click)="handleCancelClicked()">Cancel</button>
+    <button type="submit" class="btn btn-primary my-3" [disabled]="form.invalid">
+      Submit
+    </button>
+  </form>
+</div>
