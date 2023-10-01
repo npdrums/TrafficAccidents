@@ -1,4 +1,4 @@
-﻿using Domain.Enums;
+﻿using API.Contracts.Enums;
 
 namespace API.Contracts;
 

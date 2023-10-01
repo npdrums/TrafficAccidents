@@ -2,29 +2,110 @@
   <div class="row no-gutters">
     <section class="col-3">
       <div class="p-4">
-        <h5 class="text-primary ms-1">Show layers</h5>
+        <h6 class="text-primary ms-1">Show layers</h6>
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="cities" />
-          <label class="form-check-label" for="cities">Include Cities</label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="cities"
+            id="cities"
+            [(ngModel)]="citiesToggleState"
+            (ngModelChange)="citiesModelChange($event)"
+          />
+          <label class="form-check-label" for="cities">Cities</label>
+          <span class="danger-icon ms-2"
+            ><fa-icon
+              [icon]="faTriangleExclamation"
+              *ngIf="this.citiesToggleState && this.zoom < 10"
+              title="Zoom has to be over 10 in order to see cities"
+            ></fa-icon
+          ></span>
         </div>
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="municipalities" />
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="municipalities"
+            id="municipalities"
+            [(ngModel)]="municipalitiesToggleState"
+            (ngModelChange)="municipalitiesModelChange($event)"
+          />
           <label class="form-check-label" for="municipalities"
-            >Include municipalities</label
-          >
+            >Municipalities</label>
+          <span class="danger-icon ms-2"
+            ><fa-icon
+              [icon]="faTriangleExclamation"
+              *ngIf="this.municipalitiesToggleState && this.zoom < 10"
+              title="Zoom has to be over 10 in order to see municipalities"
+            ></fa-icon
+          ></span>
         </div>
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="settlements" />
-          <label class="form-check-label" for="settlements"
-            >Include Settlements</label
-          >
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="settlements"
+            id="settlements"
+            [(ngModel)]="settlementsToggleState"
+            (ngModelChange)="settlementsModelChange($event)"
+          />
+          <label class="form-check-label" for="settlements">Settlements</label>
+          <span class="danger-icon ms-2"
+            ><fa-icon
+              [icon]="faTriangleExclamation"
+              *ngIf="this.settlementsToggleState && this.zoom < 10"
+              title="Zoom has to be over 10 in order to see settlements"
+            ></fa-icon
+          ></span>
         </div>
         <hr />
-        <div></div>
+        <h6 class="text-primary ms-1">Accident Type</h6>
+        <select
+          class="form-select mb-4"
+          (change)="onAccidentTypeSelected($event)"
+        >
+          <option
+            *ngFor="let accidentType of accidentTypes"
+            [value]="accidentType"
+          >
+            {{ formatEnumResponse(accidentType) }}
+          </option>
+        </select>
+        <h6 class="text-primary ms-1">Participants Nominal Count</h6>
+        <select
+          class="form-select mb-4"
+          (change)="onParticipantsNominalCountSelected($event)"
+        >
+          <option
+            *ngFor="let participanNominalCount of participantsNominalCounts"
+            [value]="participanNominalCount"
+          >
+            {{ formatEnumResponse(participanNominalCount) }}
+          </option>
+        </select>
+        <h6 class="text-primary ms-1">Participants Status</h6>
+        <select
+          class="form-select mb-4"
+          (change)="onParticipantsStatusSelected($event)"
+        >
+          <option
+            *ngFor="let participantStatus of participantsStatuses"
+            [value]="participantStatus"
+          >
+            {{ formatEnumResponse(participantStatus) }}
+          </option>
+        </select>
       </div>
     </section>
     <section class="col-9">
-      <app-map> </app-map>
+      <app-map
+        [trafficAccidents]="trafficAccidents"
+        [municipalities]="municipalities"
+        [cities]="cities"
+        [settlements]="settlements"
+        (mapChange)="onMapChanged($event)"
+      >
+      </app-map>
     </section>
   </div>
 </div>

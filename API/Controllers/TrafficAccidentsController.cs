@@ -1,11 +1,15 @@
 ﻿using API.Contracts;
 
 using AutoMapper;
-using Domain.Enums;
+
 using Domain.Interfaces;
 using Domain.Models;
 
 using Microsoft.AspNetCore.Mvc;
+
+using AccidentType = API.Contracts.Enums.AccidentType;
+using ParticipantsNominalCount = API.Contracts.Enums.ParticipantsNominalCount;
+using ParticipantsStatus = API.Contracts.Enums.ParticipantsStatus;
 
 namespace API.Controllers;
 
@@ -99,12 +103,14 @@ public class TrafficAccidentsController : ControllerBase
         return Ok(trafficAccidentsResponse);
     }
 
-    [HttpGet("participants-count")]
+    [HttpGet("participants-counts")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     public async Task<ActionResult<IReadOnlyList<ParticipantsNominalCount>>> GetParticipantsNominalCountList()
     {
-        throw new NotImplementedException();
+        var participantsNominalCountsResponse = await _trafficAccidentsService.GetParticipantsNominalCounts();
+
+        return Ok(participantsNominalCountsResponse);
     }
 
     [HttpGet("participant-statuses")]
@@ -112,7 +118,9 @@ public class TrafficAccidentsController : ControllerBase
     [ProducesResponseType(400)]
     public async Task<ActionResult<IReadOnlyList<ParticipantsStatus>>> GetParticipantsStatusList()
     {
-        throw new NotImplementedException();
+        var participantsStatusesResponse = await _trafficAccidentsService.GetParticipantsStatuses();
+
+        return Ok(participantsStatusesResponse);
     }
 
     [HttpGet("accident-types")]
@@ -120,7 +128,9 @@ public class TrafficAccidentsController : ControllerBase
     [ProducesResponseType(400)]
     public async Task<ActionResult<IReadOnlyList<AccidentType>>> GetAccidentTypeList()
     {
-        throw new NotImplementedException();
+        var accidentTypes = await _trafficAccidentsService.GetAccidentTypes();
+
+        return Ok(accidentTypes);
     }
 
     [HttpDelete("{trafficAccidentId:guid}")]

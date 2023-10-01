@@ -4,8 +4,9 @@ export class GeoServerParams {
     request = 'GetFeature';
     srsName = 'EPSG:4326';
     outputFormat = 'json';
-    typeNamesTrafficAccidents = 'TrafficAccidentsApp:traffic_accidents';
+    typeNamesTrafficAccidents = 'TrafficAccidentsApp:AllNotDeleted';
     typeNamesSettlements = 'TrafficAccidentsApp:settlements';
     typeNamesMunicipalities = 'TrafficAccidentsApp:municipalities';
     typeNamesCities = 'TrafficAccidentsApp:cities';
+    typeNamesWithCategoryFilters = 'TrafficAccidentsApp:WithCategoryFilters';
 }

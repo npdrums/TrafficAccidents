@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Database.Specification;
 
-public abstract class Specification<T> where T : class
+public abstract class Specification<T>
 {
     public bool IsSplitQuery { get; protected set; }
 

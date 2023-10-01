@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Enums;
+using Domain.Interfaces;
 using Domain.Models;
 
 namespace Application.Services;
@@ -32,4 +33,13 @@ public class TrafficAccidentsService : ITrafficAccidentsService
 
     public async Task DeleteTrafficAccident(Guid trafficAccidentId)
         => await _repository.DeleteTrafficAccidentAsync(trafficAccidentId);
+
+    public async Task<IReadOnlyList<AccidentType>> GetAccidentTypes() 
+        => await _repository.GetAccidentTypes();
+
+    public async Task<IReadOnlyList<ParticipantsStatus>> GetParticipantsStatuses()
+        => await _repository.GetParticipantsStatuses();
+
+    public async Task<IReadOnlyList<ParticipantsNominalCount>> GetParticipantsNominalCounts()
+        => await _repository.GetParticipantsNominalCounts();
 }
