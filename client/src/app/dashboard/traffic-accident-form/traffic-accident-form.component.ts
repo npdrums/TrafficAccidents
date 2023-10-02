@@ -93,7 +93,7 @@ export class TrafficAccidentFormComponent implements OnInit {
         this.participantsNominalCounts = response
         this.cd.detectChanges();
       },
-      error: error => this.toastr.error(error, "Ooops!")
+      error: error => this.toastr.error(error.message, "Ooops!")
     })
   }
 
@@ -103,7 +103,7 @@ export class TrafficAccidentFormComponent implements OnInit {
         this.participantsStatuses = response
         this.cd.detectChanges();
       },
-      error: error => this.toastr.error(error, "Ooops!")
+      error: error => this.toastr.error(error.toString(), "Ooops!")
     })
   }
 
@@ -111,11 +111,11 @@ export class TrafficAccidentFormComponent implements OnInit {
     if (this.form.valid) {
       if (this.isEdit) {
         this.service.updateTrafficAccidentDescription(this.trafficAccidentId!, this.formControls.description.value).subscribe({
-          next: _ => {         
+          next: _ => {
             this.toastr.success("Created a new traffic accident!");
             this.router.navigate(['home'])
           },
-          error: error => this.toastr.error(error, "Ooops!")
+          error: error => this.toastr.error(error.message, "Ooops!")
         });
       } else {
         this.service.createTrafficAccident(this.form.value).subscribe({
@@ -123,7 +123,7 @@ export class TrafficAccidentFormComponent implements OnInit {
             this.toastr.success("Created a new traffic accident!");
             this.router.navigate(['home'])
           },
-          error: error => this.toastr.error(error, "Ooops!")
+          error: error => this.toastr.error(error.message, "Ooops!")
         })
       }
     }

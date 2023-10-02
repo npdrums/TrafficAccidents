@@ -3,6 +3,7 @@ import { DashboardService } from './dashboard.service';
 import { LatLngBounds } from 'leaflet';
 import { FeatureCollection } from 'geojson';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,7 +29,9 @@ export class DashboardComponent implements OnInit {
 
   faTriangleExclamation = faTriangleExclamation
 
-  constructor(private service: DashboardService, private cd: ChangeDetectorRef) { }
+  constructor(private service: DashboardService,
+    private cd: ChangeDetectorRef,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getAccidentTypes();
@@ -42,7 +45,7 @@ export class DashboardComponent implements OnInit {
         this.accidentTypes = ["All", ...response]
         this.cd.detectChanges();
       },
-      error: (error: any) => console.log(error)
+      error: error => this.toastr.error(error.message, "Ooops!")
     })
   }
 
@@ -52,7 +55,7 @@ export class DashboardComponent implements OnInit {
         this.participantsNominalCounts = ["All", ...response]
         this.cd.detectChanges();
       },
-      error: (error: any) => console.log(error)
+      error: error => this.toastr.error(error.message, "Ooops!")
     })
   }
 
@@ -62,7 +65,7 @@ export class DashboardComponent implements OnInit {
         this.participantsStatuses = ["All", ...response]
         this.cd.detectChanges();
       },
-      error: (error: any) => console.log(error)
+      error: error => this.toastr.error(error.message, "Ooops!")
     })
   }
 
@@ -109,10 +112,10 @@ export class DashboardComponent implements OnInit {
     if (this.citiesToggleState && this.zoom >= 10) {
       this.getCities(this.bbox);
     }
-    
+
     if (this.municipalitiesToggleState && this.zoom >= 10) {
       this.getMunicipalities(this.bbox);
-    } 
+    }
 
     if (this.settlementsToggleState && this.zoom >= 10) {
       this.getSettlements(this.bbox);
@@ -148,7 +151,7 @@ export class DashboardComponent implements OnInit {
         this.trafficAccidents = response
         this.cd.detectChanges();
       },
-      error: (error: any) => console.log(error)
+      error: error => this.toastr.error(error.message, "Ooops!")
     });
   }
 
@@ -157,9 +160,8 @@ export class DashboardComponent implements OnInit {
       next: response => {
         this.cities = response
         this.cd.detectChanges();
-
       },
-      error: (error: any) => console.log(error)
+      error: error => this.toastr.error(error.message, "Ooops!")
     });
   }
 
@@ -169,14 +171,14 @@ export class DashboardComponent implements OnInit {
         this.municipalities = response
         this.cd.detectChanges();
       },
-      error: (error: any) => console.log(error)
+      error: error => this.toastr.error(error.message, "Ooops!")
     });
   }
 
   getSettlements(bbox: LatLngBounds) {
     this.service.getSettlements(bbox).subscribe({
       next: response => this.settlements = response,
-      error: (error: any) => console.log(error)
+      error: error => this.toastr.error(error.message, "Ooops!")
     });
   }
 }

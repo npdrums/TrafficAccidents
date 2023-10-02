@@ -130,7 +130,7 @@ export class MapComponent implements OnInit, OnChanges {
         this.map.setZoom(this.map.getZoom())
         this.toastr.success("Deleted a traffic accident!");
       },
-      error: error => this.toastr.error(error, "Ooops!")
+      error: error => this.toastr.error(error.message, "Ooops!")
     });
   }
   

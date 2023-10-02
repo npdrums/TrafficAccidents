@@ -1,9 +1,9 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
-import { Observable, filter, map, of, take } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { GeoServerParams } from '../models/geoServerParams';
+import { GeoServerParams } from '../models/GeoServerParams';
 
 @Injectable({
   providedIn: 'root'
@@ -30,32 +30,31 @@ export class DashboardService {
 
   addFilterQueryParams(key: string, value: number) {
     const existingParams = this.params.get('viewparams');
-    if (value === 0) {
-      if (existingParams) {
-        const paramPairs = existingParams.split(';');
-        const updatedParams = paramPairs
-          .filter(param => !param.startsWith(key + ':'));
-        if (updatedParams.length > 0) {
-          this.params = this.params.set('viewparams', updatedParams.join(';'));
+    const paramPairs = existingParams ? existingParams.split(';') : [];
+    let updatedParams = paramPairs.map(param => {
+      if (param.startsWith(key + ':')) {
+        if (value !== 0) {
+          return `${key}:${value}`;
         } else {
-          this.params = this.params.delete('viewparams');
+          return '';
         }
       } else {
-        this.params = this.params.delete('viewparams');
+        return param;
       }
-    } else {
-      if (existingParams) {
-        const paramPairs = existingParams.split(';');
-        const updatedParams = paramPairs
-          .map(param => (param.startsWith(key + ':') ? `${key}:${value}` : param));
-        this.params = this.params.set('viewparams', updatedParams.join(';'));
-      } else {
-        this.params = this.params.append('viewparams', `${key}:${value}`);
-      }
+    });
+
+    if (!paramPairs.some(param => param.startsWith(key + ':')) && value !== 0) {
+      updatedParams.push(`${key}:${value}`);
     }
-    
-    console.log(this.params)
+
+    updatedParams = updatedParams.filter(param => param !== '');
+    this.params = this.params.set('viewparams', updatedParams.join(';'));
+
+    if (this.params.get('viewparams') === '') {
+      this.params = this.params.delete('viewparams');
+    }
   }
+
 
   createTrafficAccident(trafficAccident: any) {
     return this.http.post<any>(`${this.apiUrl}${this.apiResource}`, trafficAccident);
